@@ -1,0 +1,125 @@
+// Import Angular Material theming functions and variables
+@use '@angular/material' as mat;
+
+// Define your color palettes
+
+// Primary Palette (around #fde03c)
+$tha-primary-colors: (
+  50: #fff9e0,
+  100: #fff1b3,
+  200: #ffe880,
+  300: #ffdf4d,
+  400: #ffd729,
+  500: #fde03c, // Base primary color
+  600: #d8bc34,
+  700: #b4992c,
+  800: #907623,
+  900: #6c531a,
+  A100: #fff5cc,
+  A200: #ffe69a,
+  A400: #ffcf33,
+  A700: #d8b622,
+  contrast: (
+    50: mat.$black-87-opacity,
+    100: mat.$black-87-opacity,
+    200: mat.$black-87-opacity,
+    300: mat.$black-87-opacity,
+    400: mat.$black-87-opacity,
+    500: mat.$black-87-opacity,
+    600: mat.$white-100-opacity,
+    700: mat.$white-100-opacity,
+    800: mat.$white-100-opacity,
+    900: mat.$white-100-opacity,
+    A100: mat.$black-87-opacity,
+    A200: mat.$black-87-opacity,
+    A400: mat.$black-87-opacity,
+    A700: mat.$white-100-opacity,
+  ),
+);
+
+// Accent Palette (around #007bce)
+$tha-accent-colors: (
+  50: #e0f3ff,
+  100: #b3e0ff,
+  200: #80cdff,
+  300: #4dbaff,
+  400: #29aaff,
+  500: #007bce, // Base accent color
+  600: #006aaa,
+  700: #005886,
+  800: #004562,
+  900: #00323e,
+  A100: #80cdff,
+  A200: #4dbaff,
+  A400: #007bce,
+  A700: #005886,
+  contrast: (
+    50: mat.$black-87-opacity,
+    100: mat.$black-87-opacity,
+    200: mat.$black-87-opacity,
+    300: mat.$black-87-opacity,
+    400: mat.$white-100-opacity,
+    500: mat.$white-100-opacity,
+    600: mat.$white-100-opacity,
+    700: mat.$white-100-opacity,
+    800: mat.$white-100-opacity,
+    900: mat.$white-100-opacity,
+    A100: mat.$black-87-opacity,
+    A200: mat.$white-100-opacity,
+    A400: mat.$white-100-opacity,
+    A700: mat.$white-100-opacity,
+  ),
+);
+
+// Warn Palette (around #E11439)
+$tha-warn-colors: (
+  50: #fde7ea,
+  100: #fac0ca,
+  200: #f696a7,
+  300: #f26b84,
+  400: #ee4a6a,
+  500: #E11439, // Base warn color
+  600: #c30f32,
+  700: #a50c2b,
+  800: #870924,
+  900: #69061d,
+  A100: #fcb1b8,
+  A200: #f98499,
+  A400: #f6567b,
+  A700: #d00c2d,
+  contrast: (
+    50: mat.$black-87-opacity,
+    100: mat.$black-87-opacity,
+    200: mat.$black-87-opacity,
+    300: mat.$white-100-opacity,
+    400: mat.$white-100-opacity,
+    500: mat.$white-100-opacity,
+    600: mat.$white-100-opacity,
+    700: mat.$white-100-opacity,
+    800: mat.$white-100-opacity,
+    900: mat.$white-100-opacity,
+    A100: mat.$black-87-opacity,
+    A200: mat.$white-100-opacity,
+    A400: mat.$white-100-opacity,
+    A700: mat.$white-100-opacity,
+  ),
+);
+
+$primary-palette: mat.define-palette($tha-primary-colors, 500, 100, 700);
+$accent-palette: mat.define-palette($tha-accent-colors, 500, 100, 400);
+$warn-palette: mat.define-palette($tha-warn-colors, 500);
+
+
+
+// Create a theme
+$custom-theme: mat.define-light-theme((
+  color: (
+    primary: $primary-palette,
+    accent: $accent-palette,
+    warn: $warn-palette,
+  ),
+  typography: mat.define-typography-config(),
+));
+
+@include mat.all-component-themes($custom-theme);
+

@@ -1,1 +1,62 @@
-<p>claim-qr works!</p>
+<div class="flex justify-center mt-32 mb-20">
+  <img src="../../assets/Hey logo.png" alt="Logo" class="h-16 w-auto" />
+</div>
+
+<div
+  class="flex flex-col items-center justify-center space-y-8 px-8 md:px-10 lg:px-20"
+>
+  <!-- Logo and Header Section -->
+  <div class="w-full flex flex-col items-center text-center">
+    @if (!isClaimed) {
+
+    <h1 class="text-4xl font-bold text-gray-800">Are you lost?</h1>
+    } @else {
+
+    <div class="space-y-4">
+      <h1 class="text-2xl font-semibold text-gray-800">
+        You seem to have found a lost item.
+      </h1>
+      <h2 class="font-bold text-gray-700">Send something to the owner.</h2>
+    </div>
+
+    <!-- Form Section -->
+    <div class="w-full max-w-md space-y-6 mt-10">
+      <div>
+        <h3 class="font-bold text-left text-gray-700">A preset:</h3>
+        <div class="relative">
+          <mat-select
+            class="block w-full rounded-lg border border-gray-300 bg-white px-4 py-2 text-gray-800 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 text-left"
+            [(value)]="selectedPreset"
+          >
+            <mat-option value="">None</mat-option>
+            @for (preset of presets; track preset.id;) {
+
+            <mat-option [value]="preset.message">{{
+              preset.message
+            }}</mat-option>
+            }
+          </mat-select>
+        </div>
+      </div>
+
+      <div>
+        <h3 class="font-bold text-left text-gray-700">Or a custom message:</h3>
+        <textarea
+          placeholder="Write your message here..."
+          matInput
+          class="w-full rounded-lg border border-gray-300 bg-gray-50 px-4 py-2 text-gray-800 focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
+          [value]="selectedPreset"
+        ></textarea>
+      </div>
+
+      <div>
+        <button
+          class="w-full rounded-lg bg-blue-500 px-4 py-2 text-white font-semibold hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        >
+          Send
+        </button>
+      </div>
+    </div>
+    }
+  </div>
+</div>
