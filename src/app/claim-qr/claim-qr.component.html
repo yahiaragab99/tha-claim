@@ -7,11 +7,13 @@
 >
   <!-- Logo and Header Section -->
   <div class="w-full flex flex-col items-center text-center">
-    @if (!isClaimed) {
-
+    @if (isLoading) {
+    <mat-spinner></mat-spinner>
+    } @else { @if (isMessageSent) {
+    <h1 class="text-4xl font-bold text-gray-800">Message sent!</h1>
+    } @else { @if (!isQrClaimed) {
     <h1 class="text-4xl font-bold text-gray-800">Are you lost?</h1>
     } @else {
-
     <div class="space-y-4">
       <h1 class="text-2xl font-semibold text-gray-800">
         You seem to have found a lost item.
@@ -31,9 +33,7 @@
             <mat-option value="">None</mat-option>
             @for (preset of presets; track preset.id;) {
 
-            <mat-option [value]="preset.message">{{
-              preset.message
-            }}</mat-option>
+            <mat-option [value]="preset.id">{{ preset.presetText }}</mat-option>
             }
           </mat-select>
         </div>
@@ -45,18 +45,20 @@
           placeholder="Write your message here..."
           matInput
           class="w-full rounded-lg border border-gray-300 bg-gray-50 px-4 py-2 text-gray-800 focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
-          [value]="selectedPreset"
+          [value]="getSelectedPreset()"
+          #messageTextArea
         ></textarea>
       </div>
 
       <div>
         <button
           class="w-full rounded-lg bg-blue-500 px-4 py-2 text-white font-semibold hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          (click)="onSendMessage()"
         >
           Send
         </button>
       </div>
     </div>
-    }
+    } } }
   </div>
 </div>

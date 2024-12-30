@@ -1,6 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
+import { QrCode } from '../models/qrcode.model';
 
 const API_BASE_URL = environment.serverUrl + '/qrcode';
 @Injectable({
@@ -12,7 +13,7 @@ export class QrCodeService {
   constructor() {}
 
   isQrClaimed(qrCodeId: string) {
-    return this.http.post(API_BASE_URL + '/isclaimed/' + qrCodeId, {
+    return this.http.post<QrCode>(API_BASE_URL + '/isclaimed/' + qrCodeId, {
       withCredentials: true,
     });
   }
