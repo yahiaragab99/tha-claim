@@ -57,18 +57,6 @@ export class ClaimQrComponent implements OnInit {
     this.notificationService.getNotificationTypes().subscribe({
       next: (data: any) => {
         this.notificationTypes = data.items;
-        this.notificationService
-          .addNotification(
-            this.userId,
-            this.qrCodeId,
-            this.notificationTypes.find((type) => type.title == 'Scan')?.id,
-            null
-          )
-          .subscribe({
-            next: (data: any) => {
-              console.log(data);
-            },
-          });
       },
     });
   }

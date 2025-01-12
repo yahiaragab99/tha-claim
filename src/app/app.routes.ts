@@ -6,4 +6,8 @@ export const routes: Routes = [
     path: 'claim',
     component: ClaimQrComponent,
   },
+  {
+    path: '',
+    component: ClaimQrComponent,
+  },
 ];
