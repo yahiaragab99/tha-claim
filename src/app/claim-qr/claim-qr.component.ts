@@ -9,13 +9,23 @@ import { QrCodeService } from '../services/qr-code.service';
 import { ActivatedRoute } from '@angular/router';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MessagePreset } from '../models/message-preset.entity';
+// import { MessagePreset } from '../models/message-preset.entity';
 import { MatButtonModule } from '@angular/material/button';
 import { MessageService } from '../services/message.service';
 import { QrCode } from '../models/qrcode.model';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { NotificationType } from '../models/notification-type.entity';
 import { NotificationService } from '../services/notification.service';
+import {
+  FormControl,
+  FormGroup,
+  Validators,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
+import { AngularPhoneNumberInput } from 'angular-phone-number-input';
+
+const MESSAGE_PLACEHOLDER = 'I have found your lost item. Please call me.';
 @Component({
   selector: 'app-claim-qr',
   standalone: true,
@@ -24,6 +34,9 @@ import { NotificationService } from '../services/notification.service';
     MatFormFieldModule,
     MatButtonModule,
     MatProgressSpinnerModule,
+    FormsModule,
+    ReactiveFormsModule,
+    AngularPhoneNumberInput,
   ],
   templateUrl: './claim-qr.component.html',
   styleUrl: './claim-qr.component.css',
@@ -34,21 +47,26 @@ export class ClaimQrComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private notificationService = inject(NotificationService);
 
-  @ViewChild('messageTextArea') messageTextArea!: ElementRef;
+  messageForm!: FormGroup;
 
   notificationTypes!: NotificationType[];
-  presets!: MessagePreset[];
-  selectedPreset: string = '';
+  // presets!: MessagePreset[];
+  // selectedPreset: string = '';
   scannedQrCode!: QrCode;
   isQrClaimed?: boolean = false;
   qrCodeId!: string;
   userId?: string;
   messageId?: string;
+  isButtonDisabled: boolean = false;
 
   isMessageSent: boolean = false;
   isLoading: boolean = false;
   ngOnInit(): void {
     this.isLoading = true;
+    this.messageForm = new FormGroup({
+      message: new FormControl(MESSAGE_PLACEHOLDER, [Validators.required]),
+      senderPhoneNumber: new FormControl('', [Validators.required]),
+    });
     this.route.queryParams.subscribe((params) => {
       this.qrCodeId = params['id'];
       this.checkClaim(this.qrCodeId);
@@ -70,27 +88,29 @@ export class ClaimQrComponent implements OnInit {
       },
     });
 
-    this.messageService.getMessagePresets().subscribe({
-      next: (data: any) => {
-        this.presets = data.items;
-      },
-    });
+    // this.messageService.getMessagePresets().subscribe({
+    //   next: (data: any) => {
+    //     this.presets = data.items;
+    //   },
+    // });
   }
 
   onSendMessage() {
     this.isLoading = true;
-    const messageText = this.messageTextArea.nativeElement.value;
-    console.log(messageText);
+    if (!this.messageForm?.valid) return;
+    const messageText = this.messageForm.value.message;
+    const phoneNumber = this.messageForm.value.senderPhoneNumber;
+    console.log(this.messageForm.value);
     this.messageService
       .sendMessage(
         this.scannedQrCode.user_id,
         messageText,
         this.scannedQrCode.id,
-        null
+        null,
+        phoneNumber
       )
       .subscribe({
         next: (data: any) => {
-          console.log('h1', data);
           if (data.message == 'Message added') this.isMessageSent = true;
           this.messageId = data.messageId;
           this.notificationService
@@ -107,8 +127,8 @@ export class ClaimQrComponent implements OnInit {
       });
   }
 
-  getSelectedPreset() {
-    return this.presets.find((preset) => preset.id == this.selectedPreset)
-      ?.presetText;
-  }
+  // getSelectedPreset() {
+  //   return this.presets.find((preset) => preset.id == this.selectedPreset)
+  //     ?.presetText;
+  // }
 }

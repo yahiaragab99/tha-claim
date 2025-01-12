@@ -22,8 +22,48 @@
     </div>
 
     <!-- Form Section -->
-    <div class="w-full max-w-md space-y-6 mt-10">
-      <div>
+    <div class="w-full max-w-md mt-10 justify-center">
+      <form
+        [formGroup]="messageForm"
+        (ngSubmit)="onSendMessage()"
+        class="space-y-4"
+      >
+        <div>
+          <h3 class="font-bold text-left text-gray-700">
+            Type your message here:
+          </h3>
+          <textarea
+            placeholder="Write your message here..."
+            formControlName="message"
+            class="w-full rounded-lg border border-gray-300 bg-gray-50 px-4 py-2 text-gray-800 focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
+          ></textarea>
+        </div>
+
+        <div>
+          <h3 class="font-bold text-left text-gray-700">
+            Please provide your phone number:
+          </h3>
+          <angular-phone-number-input
+            formControlName="senderPhoneNumber"
+            [defaultCountry]="'EG'"
+            [error]="
+              messageForm.get('senderPhoneNumber')?.touched &&
+              messageForm.get('senderPhoneNumber')?.invalid
+            "
+            [border]="true"
+          ></angular-phone-number-input>
+        </div>
+
+        <div>
+          <button
+            class="w-full rounded-lg bg-blue-500 px-4 py-2 text-white font-semibold hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            [disabled]="!messageForm.valid"
+          >
+            Send
+          </button>
+        </div>
+      </form>
+      <!-- <div>
         <h3 class="font-bold text-left text-gray-700">A preset:</h3>
         <div class="relative">
           <mat-select
@@ -32,32 +72,11 @@
           >
             <mat-option value="">None</mat-option>
             @for (preset of presets; track preset.id;) {
-
             <mat-option [value]="preset.id">{{ preset.presetText }}</mat-option>
             }
           </mat-select>
         </div>
-      </div>
-
-      <div>
-        <h3 class="font-bold text-left text-gray-700">Or a custom message:</h3>
-        <textarea
-          placeholder="Write your message here..."
-          matInput
-          class="w-full rounded-lg border border-gray-300 bg-gray-50 px-4 py-2 text-gray-800 focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
-          [value]="getSelectedPreset()"
-          #messageTextArea
-        ></textarea>
-      </div>
-
-      <div>
-        <button
-          class="w-full rounded-lg bg-blue-500 px-4 py-2 text-white font-semibold hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          (click)="onSendMessage()"
-        >
-          Send
-        </button>
-      </div>
+      </div> -->
     </div>
     } } }
   </div>

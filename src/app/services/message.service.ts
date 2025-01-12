@@ -13,14 +13,16 @@ export class MessageService {
 
   sendMessage(
     recipientId: string | undefined,
-    messageBody: string | undefined,
+    message: string | undefined,
     qrCodeId: string | undefined,
-    presetId: string | null
+    presetId: string | null,
+    senderPhoneNumber?: string | undefined
   ) {
     return this.http.post(API_BASE_URL + '/new/' + recipientId, {
-      message: messageBody,
-      presetId: presetId,
-      qrCodeId: qrCodeId,
+      message,
+      presetId,
+      qrCodeId,
+      senderPhoneNumber,
     });
   }
 
